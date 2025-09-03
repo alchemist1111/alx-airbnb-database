@@ -10,7 +10,7 @@ SELECT
     u.last_name,
     u.email
 FROM Booking b
-INNER JOIN User u ON b.user_id = u.user_id 
+INNER JOIN User u ON b.user_id = u.user_id; 
 
 -- 2. LEFT JOIN: Retrieve all properties and their reviews, including properties with no reviews
 SELECT
@@ -22,7 +22,8 @@ SELECT
     r.comment,
     r.created_at AS review_date
 FROM Property p
-LEFT JOIN Review r ON p.property_id = r.property_id  
+LEFT JOIN Review r ON p.property_id = r.property_id
+ORDER BY p.property_id;  
 
 -- 3. FULL OUTER JOIN: Retrieve all users and all bookings,
 -- even if the user has no booking or the booking is not linked to a user
@@ -52,6 +53,6 @@ SELECT
     b.end_date,
     b.status
 FROM User u
-RIGHT JOIN Booking b ON u.user_id = b.user_id
+RIGHT JOIN Booking b ON u.user_id = b.user_id;
 
 
