@@ -5,6 +5,8 @@ We use INNER JOIN, LEFT JOIN, and FULL OUTER JOIN to explore relationships betwe
 
 ---
 
+## Task 0
+
 ## Queries
 
 ### 1. INNER JOIN – Bookings with respective Users
@@ -37,3 +39,39 @@ RIGHT JOIN Booking b ON u.user_id = b.user_id;
 
 📌 Retrieves all users (even those without bookings) and all bookings (even if not linked to a user).
 Since MySQL doesn’t support FULL OUTER JOIN directly, we simulate it using UNION of LEFT JOIN and RIGHT JOIN.
+
+
+```
+## Task 1: Practice Subqueries
+This task demonstrates the use of **non-correlated** and **correlated subqueries** on the Airbnb schema.
+
+---
+
+## Queries
+### 1. Non-correlated Subquery – Properties with Average Rating > 4.0
+
+```sql
+SELECT p.property_id, p.name, p.location, p.pricepernight
+FROM Property p
+WHERE p.property_id IN (
+    SELECT r.property_id
+    FROM Review r
+    GROUP BY r.property_id
+    HAVING AVG(r.rating) > 4.0
+)
+ORDER BY p.property_id;
+
+📌 Retrieves all properties whose average rating (from the Review table) is greater than 4.0.
+This is non-correlated because the inner query runs independently of the outer query.
+
+SELECT u.user_id, u.first_name, u.last_name, u.email
+FROM User u
+WHERE (
+    SELECT COUNT(*)
+    FROM Booking b
+    WHERE b.user_id = u.user_id
+) > 3
+ORDER BY u.user_id;
+
+📌 Retrieves all users who have made more than 3 bookings.
+This is a correlated subquery because the inner query references the outer query (u.user_id).
