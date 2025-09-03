@@ -75,3 +75,38 @@ ORDER BY u.user_id;
 
 📌 Retrieves all users who have made more than 3 bookings.
 This is a correlated subquery because the inner query references the outer query (u.user_id).
+
+```
+## Task 2: Aggregations and Window Functions
+
+This task demonstrates how to use **aggregation functions** and **window functions** on the Airbnb schema.
+
+---
+
+## Queries
+
+### 1. Aggregation – Total Bookings per User
+```sql
+SELECT u.user_id, u.first_name, u.last_name, COUNT(b.booking_id) AS total_bookings
+FROM User u
+LEFT JOIN Booking b ON u.user_id = b.user_id
+GROUP BY u.user_id, u.first_name, u.last_name
+ORDER BY total_bookings DESC;
+
+📌 This query counts the number of bookings made by each user using the COUNT function and GROUP BY.
+We use a LEFT JOIN so users with zero bookings are still included.
+
+
+SELECT p.property_id, p.name, COUNT(b.booking_id) AS total_bookings,
+       RANK() OVER (ORDER BY COUNT(b.booking_id) DESC) AS booking_rank
+FROM Property p
+LEFT JOIN Booking b ON p.property_id = b.property_id
+GROUP BY p.property_id, p.name
+ORDER BY booking_rank;
+```
+
+📌 This query uses RANK() as a window function to rank properties by how many bookings they have received.
+
+- **COUNT(b.booking_id)** gives total bookings.
+
+- **RANK()** OVER (ORDER BY COUNT(...) DESC) ranks properties from most to least booked.
