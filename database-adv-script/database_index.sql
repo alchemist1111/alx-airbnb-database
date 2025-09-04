@@ -27,3 +27,11 @@ CREATE INDEX idx_property_location ON Property(location);
 
 -- Price filter (range queries for search results)
 CREATE INDEX idx_property_price ON Property(pricepernight);
+
+
+-- Performance analysis
+EXPLAIN SELECT * FROM User WHERE email = 'john@example.com';
+
+EXPLAIN SELECT * FROM Booking WHERE user_id = '123e4567-e89b-12d3-a456-426614174000';
+
+EXPLAIN SELECT * FROM Property WHERE location = 'Nairobi';
