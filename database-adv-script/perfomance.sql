@@ -1,4 +1,4 @@
--- Initial Query: Retrieve all bookings with user, property, and payment details
+-- Initial Query: Retrieve all bookings with user, property, and payment details (with filters)
 EXPLAIN ANALYZE
 SELECT 
     b.booking_id,
@@ -19,7 +19,10 @@ SELECT
 FROM Booking b
 JOIN User u ON b.user_id = u.user_id
 JOIN Property p ON b.property_id = p.property_id
-LEFT JOIN Payment pay ON b.booking_id = pay.booking_id;
+LEFT JOIN Payment pay ON b.booking_id = pay.booking_id
+WHERE b.status = 'confirmed'
+  AND p.location = 'Nairobi';
+
 
 -- Optimized Query: Use selective columns and ensure indexed columns are leveraged
 EXPLAIN ANALYZE
@@ -27,7 +30,6 @@ SELECT
     b.booking_id,
     b.start_date,
     b.end_date,
-    b.status,
     u.first_name,
     u.last_name,
     p.name AS property_name,
@@ -36,4 +38,6 @@ SELECT
 FROM Booking b
 JOIN User u ON b.user_id = u.user_id
 JOIN Property p ON b.property_id = p.property_id
-LEFT JOIN Payment pay ON b.booking_id = pay.booking_id;
+LEFT JOIN Payment pay ON b.booking_id = pay.booking_id
+WHERE b.status = 'confirmed'
+  AND p.location = 'Nairobi';
