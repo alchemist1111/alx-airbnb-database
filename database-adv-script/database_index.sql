@@ -29,9 +29,16 @@ CREATE INDEX idx_property_location ON Property(location);
 CREATE INDEX idx_property_price ON Property(pricepernight);
 
 
--- Performance analysis
-EXPLAIN SELECT * FROM User WHERE email = 'john@example.com';
+-- Performance Checks with EXPLAIN ANALYZE
 
-EXPLAIN SELECT * FROM Booking WHERE user_id = '123e4567-e89b-12d3-a456-426614174000';
+-- 1. User lookup by email
+EXPLAIN ANALYZE
+SELECT * FROM User WHERE email = 'john@example.com';
 
-EXPLAIN SELECT * FROM Property WHERE location = 'Nairobi';
+-- 2. Booking history for a user
+EXPLAIN ANALYZE
+SELECT * FROM Booking WHERE user_id = '123e4567-e89b-12d3-a456-426614174000';
+
+-- 3. Properties in a city
+EXPLAIN ANALYZE
+SELECT * FROM Property WHERE location = 'Nairobi';
